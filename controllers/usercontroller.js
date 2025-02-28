@@ -1,159 +1,3 @@
-// import usermodel from "../models/User.js";
-// import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
-// import transporter from "../config/emailConfig.js";
-
-// class UserController {
-//   static userRegistration = async (req, res) => {
-//     const { name, email, password, password_confirmation, tc } = req.body;
-//     const user = await usermodel.findOne({ email: email });
-//     if (user) {
-//       res.send({ status: "failed", message: "This is email already exists" });
-//     } else {
-//       if (name && email && password && password_confirmation && tc) {
-//         if (password === password_confirmation) {
-//           try {
-//             const salt = await bcrypt.genSalt(10);
-//             const hashPassword = await bcrypt.hash(password, salt);
-//             const doc = new usermodel({
-//               name: name,
-//               email: email,
-//               password: hashPassword,
-//               tc: tc,
-//             });
-//             await doc.save();
-//             const saved_user = await usermodel.findOne({ email: email });
-//             // Generate JWT token
-//             const token = jwt.sign(
-//               { userID: saved_user._id },
-//               process.env.JWT_SECRET_KEY,
-//               { expiresIn: "30d" }
-//             );
-//             res
-//               .status(201)
-//               .send({
-//                 status: "success",
-//                 message: "Registration done",
-//                 token: token,
-//               });
-//           } catch (error) {
-//             console.log(error);
-//             res.send({ status: "failed", message: "unable to register" });
-//           }
-//         } else {
-//           res.send({ status: "failed", message: "Password does not match" });
-//         }
-//       } else {
-//         res.send({ status: "failed", message: "All fields are reuired" });
-//       }
-//     }
-//   };
-//   static userlogin = async (req, res) => {
-//     try {
-//       const { email, password } = req.body;
-//       if (email && password) {
-//         const user = await usermodel.findOne({ email: email });
-//         if (user != null) {
-//           const isMatch = await bcrypt.compare(password, user.password);
-//           if (user.email === email && isMatch) {
-//             //Genrate JWT Token
-//             const token = jwt.sign(
-//               { userID: user._id },
-//               process.env.JWT_SECRET_KEY,
-//               { expiresIn: "30d" }
-//             );
-//             res.send({
-//               status: "success", message: "Log in succesfully", token: token });
-//           } else {
-//             res.send({ status: "failed", message: "Email or Password is not valid"});
-//           }
-//         } else {
-//           res.send({ status: "failed", message: "User is not registered" });
-//         }
-//       } else {
-//         res.send({ Status: "Failed", message: "All fields required" });
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       res.send({ status: "failed", message: "unable to Log in" });
-//     }
-//   };
-//   static changePassword = async (req, res) => {
-//     const { password, password_confirmation } = req.body;
-//     if (password && password_confirmation) {
-//       if (password === password_confirmation) {
-//         const salt = await bcrypt.genSalt(10);
-//         const hashPassword = await bcrypt.hash(password, salt);
-//         res.send({
-//           status: "success",
-//           message: "password change successfully",
-//         });
-//       } else {
-//         res.send({ status: "failed", message: "Password does not match" });
-//       }
-//     } else {
-//       res.send({ status: "failed", message: "All fields required" });
-//     }
-//   }
-//    static senduserPasswordResetemail = async (req,res)=>{
-//     const{email}= req.body
-//     if (email){
-//       const user = await usermodel.findOne({email:email})
-//       if(user){
-//         const secret = user._id + process.env.JWT_SECRET_KEY
-//         const token = jwt.sign({userID: user._id},secret,{expiresIn: '120m'})
-//         const link =  `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
-//         console.log(link)
-
-//         //Send email
-//         let info = await transporter.sendMail({
-//           from:process.env.EMAIL_FORM,
-//           to:user.email,
-//           subject:"User registraton - Password Reset link",
-//           html:`<a> herf: ${link} Click here to </a> reset your passward`
-//         })
-
-//         res.send({"status":"success","message":"Password Reset Email Sent...Please Reset Email Sent...Please Check Your Email","info":info})
-//       }else{
-//         res.send({"status":"failed","message": "email does not exist"})
-//       }
-//     }else{
-//       res.send({"status":"failed","message": "email feild is required"})
-//     }
-//    }
-//    static userPasswordReset = async(req, res)=>{
-//     const{password, password_confirmation} = req.body
-//     const {id, token} = req.params
-//     const user = await usermodel.findById(id)
-//     const new_secret = user._id + process.env.JWT_SECRET_KEY
-//     try {
-//       jwt.verify(token, new_secret)
-//       if (password && password_confirmation) {
-//         if (password === password_confirmation) {
-//           const salt = await bcrypt.genSalt(10)
-//           const newhashPassword = await bcrypt.hash(password, salt)
-//           await usermodel.findByIdAndUpdate(user._id,{$set:{password: newhashPassword}})
-//           res.send({"status":"success","message":"Password reset successfully"})
-//         } else {
-//           res.send({"status":"failed","message": "Password does not match"})
-//         }
-//       } else {
-//         res.send({"status":"failed","message": "All feilds is required"})
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       res.send({"status":"failed","message": "Invalid token"})
-//     }
-//    }
- 
-// }
-
-// export default UserController;
-
-
-//----------------------------------------------------------------------------------------------
-
-
 import UserModel from '../models/User.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -249,14 +93,14 @@ class UserController {
         const secret = user._id + process.env.JWT_SECRET_KEY
         const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '15m' })
         const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
-        console.log(link)
-        // // Send Email
-        // let info = await transporter.sendMail({
-        //   from: process.env.EMAIL_FROM,
-        //   to: user.email,
-        //   subject: "GeekShop - Password Reset Link",
-        //   html: `<a href=${link}>Click Here</a> to Reset Your Password`
-        // })
+        //console.log(link)
+        // Send Email
+          let info = await transporter.sendMail({
+          from: process.env.EMAIL_FROM,
+          to: user.email,
+          subject: "GeekShop - Password Reset Link",
+          html: `<a href=${link}>Click Here</a> to Reset Your Password`,          
+        })
         res.send({ "status": "success", "message": "Password Reset Email Sent... Please Check Your Email" })
       } else {
         res.send({ "status": "failed", "message": "Email doesn't exists" })
