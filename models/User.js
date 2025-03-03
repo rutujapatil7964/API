@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     tc:{type:Boolean, required:true} //turn condition
 })
 
-
 //Model
 const usermodel = mongoose.model("user", userSchema)
 

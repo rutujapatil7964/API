@@ -91,15 +91,15 @@ class UserController {
       const user = await UserModel.findOne({ email: email })
       if (user) {
         const secret = user._id + process.env.JWT_SECRET_KEY
-        const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '15m' })
-        const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
+        const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '2d' })
+       // const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
         //console.log(link)
         // Send Email
           let info = await transporter.sendMail({
           from: process.env.EMAIL_FROM,
           to: user.email,
-          subject: "GeekShop - Password Reset Link",
-          html: `<a href=${link}>Click Here</a> to Reset Your Password`,          
+          subject: "User registration API - Password Reset Link",
+          html: `<a href=${process.env.link}>Click Here</a> to Reset Your Password`,          
         })
         res.send({ "status": "success", "message": "Password Reset Email Sent... Please Check Your Email" })
       } else {

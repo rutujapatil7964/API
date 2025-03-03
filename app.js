@@ -1,29 +1,10 @@
-// import dotenv from "dotenv";
-// dotenv.config();
-// import express from "express";
-// import cors from "cors";
-// import connectDB from "./config/connectdb.js";
-
-// const app = express();
-// const port = process.env.PORT || 8000;
-// const uri = process.env.DATABASE_URL || "";
-
-// //corse policy
-// app.use(cors());
-
-// //database connection
-
-// app.listen(port, () => {
-//   console.log(`Server listening at http://localhost:${port}`);
-//   connectDB();
-// });
-//-----------------------------------------------------------------------
 import dotenv from 'dotenv'
 dotenv.config()
 import express from 'express'
 import cors from 'cors';
 import connectDB from './config/connectdb.js'
 import userRoutes from './routes/userRoutes.js'
+import StudentRoutes from './routes/StudentRoutes.js'
 
 const app = express()
 const port = process.env.PORT
@@ -40,6 +21,7 @@ app.use(express.json())
 
  // Load Routes
  app.use("/api/user", userRoutes)
+ app.use("/api/student", StudentRoutes)
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
