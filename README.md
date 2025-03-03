@@ -10,3 +10,4 @@ Setup & Installation
 o	For development mode with auto-restart: 
 o	npm run dev
 9.	API is now running on http://localhost:8000 (or the specified port).
+10.	Pstman API: https://documenter.getpostman.com/view/42547352/2sAYdinUcd
