@@ -5,9 +5,7 @@ Setup & Installation
 4.	Install dependencies: 
 5.	npm install Express.js Mongoose	JWT Bcrypt Nodemailer dotenv 
 6.	Create a .env file and configure environment variables.
-7.	Start the server: 
-8.	npm start
-o	For development mode with auto-restart: 
-o	npm run dev
+7.	Start the server: npm start
+8.	For development mode with auto-restart: npm run dev
 9.	API is now running on http://localhost:8000 (or the specified port).
 10.	Pstman API: https://documenter.getpostman.com/view/42547352/2sAYdinUcd
