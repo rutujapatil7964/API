@@ -26,3 +26,16 @@ app.use(express.json())
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
 })
+
+
+
+// const studentData = await Student.find();
+// const roll_no = studentData.length + 1;
+
+
+
+// if (!first_name || !middle_name || !last_name || !agev) {
+//   return res
+//     .status(400)
+//     .send({ status: "failed", message: "All fields are required" });
+// }

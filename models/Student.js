@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const StudentSchema = new mongoose.Schema({
-  roll_no: { type: Number, required: true },
+  roll_no: { type: Number, required: true , unique: true},
   first_name: { type: String, required: true },
   middle_name: { type: String, required: true },
   last_name: { type: String, required: true },

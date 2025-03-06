@@ -26,7 +26,7 @@ class UserController {
             // Generate JWT Token
             const token = jwt.sign({ userID: saved_user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '5d' })
             res.status(201).send({ "status": "success", "message": "Registration Success", "token": token })
-          } catch (error) {
+            } catch (error) {
             console.log(error)
             res.send({ "status": "failed", "message": "Unable to Register" })
           }
@@ -92,7 +92,7 @@ class UserController {
       if (user) {
         const secret = user._id + process.env.JWT_SECRET_KEY
         const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '2d' })
-       // const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
+        // const link = `http://127.0.0.1:3000/api/user/reset/${user._id}/${token}`
         //console.log(link)
         // Send Email
           let info = await transporter.sendMail({
@@ -113,6 +113,7 @@ class UserController {
   static userPasswordReset = async (req, res) => {
     const { password, password_confirmation } = req.body
     const { id, token } = req.params
+   
     const user = await UserModel.findById(id)
     const new_secret = user._id + process.env.JWT_SECRET_KEY
     try {
@@ -129,6 +130,7 @@ class UserController {
       } else {
         res.send({ "status": "failed", "message": "All Fields are Required" })
       }
+   
     } catch (error) {
       console.log(error)
       res.send({ "status": "failed", "message": "Invalid Token" })
